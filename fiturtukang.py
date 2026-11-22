@@ -1,33 +1,76 @@
 from data import tukang, status_tukang
-from helper import clear_screen, enter, minta_angka, pilih_menu, tanya_teks
+from helper import clear_screen, enter, pilih_menu, tanya_teks
 from tampilan import tampil_tukang
-def cari_tukang_siap():
-    for t in tukang:
-        if t["status"] == "Siap otw":
-            return t
-    return {}
+
+def ambil_nomor(daftar):
+    try:
+        nomor = int(tanya_teks("Nomor"))
+        if nomor < 1 or nomor > len(daftar):
+            raise IndexError(nomor)
+    except ValueError:
+        print("Nomornya harus angka!")
+        return None
+    except IndexError:
+        print("Nomor itu nggak ada!")
+        return None
+    return nomor - 1
+
 def kelola_tukang():
     while True:
         clear_screen()
         print("---( KELOLA TUKANG )---")
         print()
-        tampil_tukang(tukang, False)
+        tampil_tukang()
         print()
-        sub = pilih_menu("Pilih bos", [("Tambah tukang", 1), ("Ubah status tukang", 2), ("Hapus tukang", 3), ("Kembali", 0)])
+        sub = pilih_menu("Pilih", [("Tambah tukang", 1), ("Ubah tukang", 2), ("Ubah status tukang", 3), ("Kembali", 0)])
         if sub == 0:
             break
         elif sub == 1:
             nama = tanya_teks("Nama tukang").strip()
-            nama_ada = False  
+            nama_ada = False
             for t in tukang:
                 if t["nama"] == nama:
                     nama_ada = True
             if nama == "":
-                print("Mana namanya bos?")
+                print("Nama nggak boleh kosong!")
             elif nama_ada == True:
-                print("Nama tukang sudah ada bos!")
+                print("Nama tukang sudah ada!")
             else:
                 tukang.append({"nama": nama, "status": status_tukang[0]})
                 print("Tukang", nama, "udah ditambah!")
             enter()
- 
+        elif sub == 2:
+            if len(tukang) == 0:
+                print("Belum ada tukang!")
+                enter()
+                continue
+            idx = ambil_nomor(tukang)
+            if idx is None:
+                enter()
+                continue
+            nama = tanya_teks("Nama baru").strip()
+            nama_ada = False
+            for i in range(len(tukang)):
+                if i != idx and tukang[i]["nama"] == nama:
+                    nama_ada = True
+            if nama == "":
+                print("Nama nggak boleh kosong!")
+            elif nama_ada == True:
+                print("Nama tukang sudah ada!")
+            else:
+                tukang[idx]["nama"] = nama
+                print("Data tukangnya udah diubah!")
+            enter()
+        elif sub == 3:
+            if len(tukang) == 0:
+                print("Belum ada tukang!")
+                enter()
+                continue
+            idx = ambil_nomor(tukang)
+            if idx is None:
+                enter()
+                continue
+            status = pilih_menu("Status baru", list(status_tukang))
+            tukang[idx]["status"] = status
+            print("Status", tukang[idx]["nama"], "udah jadi", status)
+            enter()
