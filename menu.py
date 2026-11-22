@@ -1,4 +1,4 @@
-from helper import bersihkan_layar, pilih_menu
+from helper import clear_screen, pilih_menu
 from autentikasi import lihat_pengguna
 from fiturtukang import kelola_tukang
 from fiturpaket import kelola_paket
@@ -19,8 +19,6 @@ def menu_admin():
             kelola_tukang()
         elif menu == 2:
             kelola_paket()
-        elif menu == 3:
-
 def menu_pelanggan(user_login):
     while True:
         clear_screen()

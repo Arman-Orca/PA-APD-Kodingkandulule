@@ -1,8 +1,9 @@
 from helper import clear_screen, pilih_menu
 from autentikasi import register, login
+from menu import menu_admin, menu_pelanggan
 def main():
     while True:
-        bersihkan_layar()
+        clear_screen()
         print("---( Jasa Renovasi Rumah )---")
         print()
         pilih = pilih_menu("Pilih menu", [("Login", 1), ("Buat Akun Baru", 2), ("Keluar", 0)])
