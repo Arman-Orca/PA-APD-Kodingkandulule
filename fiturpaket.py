@@ -1,4 +1,5 @@
 from data import paket, MAKS_HARGA
+<<<<<<< HEAD
 from helper import clear_screen, enter, pilih_menu, tanya_teks
 from tampilan import tampil_paket
 from fiturtukang import ambil_nomor
@@ -14,6 +15,10 @@ def minta_angka(pesan, minimal, maksimal):
         else:
             return nilai
         
+=======
+from helper import clear_screen, enter, minta_angka, pilih_menu, tanya_teks
+from tampilan import tampil_paket
+>>>>>>> 89de3b987a9dd0df6369aab767191f41cd913789
 def kelola_paket():
     while True:
         clear_screen()

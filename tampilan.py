@@ -1,5 +1,6 @@
 from prettytable import PrettyTable
 from data import tukang
+
 def tampil_paket(daftar, hanya_tersedia):
     tabel = PrettyTable()
     tabel.field_names = ["No", "Nama", "Harga", "Fitur", "Sedia"]
@@ -11,6 +12,7 @@ def tampil_paket(daftar, hanya_tersedia):
         print("Paket sedang habis semua.")
     else:
         print(tabel)
+
 def tampil_tukang():
     tabel = PrettyTable()
     tabel.field_names = ["No", "Nama", "Status"]
