@@ -18,3 +18,16 @@ def pilih_menu(pesan, pilihan):
     if hasil is None:
         raise KeyboardInterrupt
     return hasil["p"]
+def minta_angka(pesan, minimum, maksimum):
+    teks = input(pesan).strip()
+    try:
+        if not teks.isdecimal():
+            raise ValueError("Harus berupa angka bulat bos!")
+        nilai = int(teks)
+        if nilai < minimum or nilai > maksimum:
+            raise ValueError("Angkanya harus antara " + str(minimum) + " sampai " + str(maksimum) + " bos!")
+    except ValueError as e:
+        print(e)
+        return minta_angka(pesan, minimum, maksimum)
+    else:
+        return nilai
