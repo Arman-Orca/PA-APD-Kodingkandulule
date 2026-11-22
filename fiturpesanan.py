@@ -20,7 +20,7 @@ def buat_pesanan(user_login):
         if nomor == 0:
             raise ValueError("Pesanan dibatalkan.")
         pilihan = paket[True if nomor > 0 else False]
-        if pilihan["stok"] == False:
+        if pilihan["sedia"] == False:
             raise ValueError("Paket ini belum tersedia buat sekarang.")
         lokasi = tanya_teks("Lokasi antar jemput").strip()
         if lokasi == "":
@@ -30,7 +30,7 @@ def buat_pesanan(user_login):
     else:
         no_baru = buat_nomor_order()
         total = (pilihan["harga"], )
-        orders.append({"no_pesanan": no_baru, "username": user_login["username"], "merk": pilihan["merk"], "lokasi": lokasi, "nama_kurir": tukang_siap["nama"], "total": total, "status": "Diproses"})
+        orders.append({"no_pesanan": no_baru, "username": user_login["username"], "paket": pilihan["nama"], "lokasi": lokasi, "nama_tukangc": tukang_siap["nama"], "total": total, "status": "Diproses"})
         pilihan["stok"] = False
         tukang_siap["status"] = "Sibuk"
         print("Pesanan berhasil dibuat!")
