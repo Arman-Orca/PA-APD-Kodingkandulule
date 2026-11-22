@@ -1,6 +1,7 @@
 from data import tukang, status_tukang
 from helper import clear_screen, enter, pilih_menu, tanya_teks
 from tampilan import tampil_tukang
+from prettytable import PrettyTable
 
 def ambil_nomor(daftar):
     try:
@@ -74,3 +75,18 @@ def kelola_tukang():
             tukang[idx]["status"] = status
             print("Status", tukang[idx]["nama"], "udah jadi", status)
             enter()
+
+def cari_tukang_siap():
+    return
+
+def lihat_tukang():
+    clear_screen()
+    tabel = PrettyTable()
+    tabel.field_names = ["No", "Nama", "Status"]
+    for i in range(len(tukang)):
+        tabel.add_row([i + 1, tukang[i]["nama"], tukang[i]["status"]])
+    if len(tabel.rows) == 0:
+        print("Belum ada tukang.")
+    else:
+        print(tabel)
+    enter()

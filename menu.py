@@ -1,8 +1,10 @@
 from helper import clear_screen, pilih_menu
 from autentikasi import lihat_pengguna
-from fiturtukang import kelola_tukang
+from fiturtukang import kelola_tukang, lihat_tukang
 from fiturpaket import kelola_paket
-from fiturpesanan import buat_pesanan
+from fiturpesanan import buat_pesanan, lihat_status
+
+
 def menu_admin():
     while True:
         clear_screen()
@@ -22,13 +24,20 @@ def menu_admin():
             kelola_tukang()
         elif menu == 2:
             kelola_paket()
+        elif menu == 3:
+            lihat_ringkasan()
+        elif menu == 4:
+            tandai_selesai()
+        else:
+            status_pembayaran()
+
 def menu_pelanggan(user_login):
     while True:
         clear_screen()
         print("---( MENU PELANGGAN )---")
         menu = pilih_menu("Pilih menu", [
             ("Lihat Tukang", 1),
-            ("Pesan Tukang", 2),
+            ("Buat Pesanan", 2),
             ("Lihat Status", 3),
             ("Jumlah Saldo", 4),
             ("Top Up Saldo", 5),
@@ -41,9 +50,9 @@ def menu_pelanggan(user_login):
         elif menu == 1:
             lihat_tukang ()
         elif menu == 2:
-            pesan_tukang()
+            buat_pesanan(user_login)
         elif menu == 3:
-            lihat_status()
+            lihat_status(user_login)
         elif menu == 4:
             jumlah_saldo()
         elif menu == 5:
@@ -53,4 +62,3 @@ def menu_pelanggan(user_login):
         else:
             hapus_data_pesanan()
 
-menu_pelanggan()

@@ -20,3 +20,5 @@ def main():
                     menu_pelanggan(user_login)
         else:
             register()
+
+main()
