@@ -1,6 +1,7 @@
 from helper import clear_screen, pilih_menu
 from autentikasi import register, login
 from menu import menu_admin, menu_pelanggan
+
 def main():
     while True:
         clear_screen()
@@ -21,4 +22,4 @@ def main():
         else:
             register()
 
-    main()
+main()

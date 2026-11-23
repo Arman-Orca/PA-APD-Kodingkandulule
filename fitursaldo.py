@@ -1,6 +1,19 @@
 from data import MAKS_TOPUP
 from helper import clear_screen, enter, minta_angka
 
+def jumlah_saldo(user_login):
+    clear_screen()
+    print("---( JUMLAH SALDO )---")
+    print()
+    try:
+        saldo = user_login["saldo"]
+    except KeyError:
+        print("Data akun tidak ditemukan!")
+    else:
+        print("Saldo Anda: Rp", saldo)
+    finally:
+        enter()
+
 def topup_saldo(user_login):
     clear_screen()
     print("---( TOP UP SALDO )---")

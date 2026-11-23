@@ -3,7 +3,8 @@ from autentikasi import lihat_pengguna
 from fiturtukang import kelola_tukang, lihat_tukang
 from fiturpaket import kelola_paket
 from fiturpesanan import buat_pesanan
-from fitursaldo import topup_saldo
+from fitursaldo import topup_saldo, jumlah_saldo
+
 def menu_admin():
     while True:
         clear_screen()
@@ -56,9 +57,9 @@ def menu_pelanggan(user_login):
         elif menu == 3:
             buat_pesanan()
         elif menu == 4:
-            print("belum dibikin")
+            jumlah_saldo(user_login)
         elif menu == 5:
-            topup_saldo()
+            topup_saldo(user_login)
         elif menu == 6:
             print("belum dibikin")
         elif menu == 7:
