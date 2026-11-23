@@ -60,7 +60,7 @@ def kelola_paket():
                 print("Nama itu sudah ada!")
             else:
                 harga = minta_angka("Harga baru : ", 0, MAKS_HARGA)
-                fitur = minta_angka("Fitur baru : ", 0, 999)
+                fitur = tanya_teks("Fitur baru").strip()
                 paket[idx]["nama"] = nama
                 paket[idx]["harga"] = harga
                 paket[idx]["fitur"] = fitur
