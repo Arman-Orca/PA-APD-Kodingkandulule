@@ -1,5 +1,5 @@
 users = [
-    {"username": "admin", "password": "akuadminkaumember", "role": "admin", "saldo": 0},
+    {"username": "admin", "password": "akuadmin", "role": "admin", "saldo": 0},
     {"username": "yanto", "password": "000", "role": "pelanggan", "saldo": 0},
 ]
 paket = [   

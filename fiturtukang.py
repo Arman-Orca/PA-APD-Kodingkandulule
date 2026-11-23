@@ -2,7 +2,6 @@ from data import tukang, status_tukang
 from helper import clear_screen, enter, pilih_menu, tanya_teks
 from tampilan import tampil_tukang
 from prettytable import PrettyTable
-
 def ambil_nomor(daftar):
     try:
         nomor = int(tanya_teks("Nomor"))
@@ -15,7 +14,6 @@ def ambil_nomor(daftar):
         print("Nomor itu nggak ada!")
         return None
     return nomor - 1
-
 def kelola_tukang():
     while True:
         clear_screen()
@@ -23,7 +21,7 @@ def kelola_tukang():
         print()
         tampil_tukang()
         print()
-        sub = pilih_menu("Pilih", [("Tambah tukang", 1), ("Ubah tukang", 2), ("Ubah status tukang", 3), ("Kembali", 0)])
+        sub = pilih_menu("Pilih", [("Tambah tukang", 1), ("Ubah tukang", 2), ("Ubah status tukang", 3), ("Hapus Tukang", 4), ("Kembali", 0)])
         if sub == 0:
             break
         elif sub == 1:
@@ -69,16 +67,27 @@ def kelola_tukang():
                 continue
             idx = ambil_nomor(tukang)
             if idx is None:
-                enter()
+                enter()    
                 continue
             status = pilih_menu("Status baru", list(status_tukang))
             tukang[idx]["status"] = status
             print("Status", tukang[idx]["nama"], "udah jadi", status)
             enter()
-
+        elif sub == 4:
+            if len(tukang) == 0:
+                print("Belum ada tukang!")
+                enter()
+                continue
+            idx = ambil_nomor(tukang)
+            if idx is None:
+                enter()
+                continue
+            nama = tukang[idx]["nama"]
+            del tukang[idx]
+            print("Tukang", nama, "udah dihapus!")
+            enter()
 def cari_tukang_siap():
     return
-
 def lihat_tukang():
     clear_screen()
     tabel = PrettyTable()

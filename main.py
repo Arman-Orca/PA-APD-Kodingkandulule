@@ -21,4 +21,4 @@ def main():
         else:
             register()
 
-main()
+    main()

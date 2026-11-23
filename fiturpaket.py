@@ -21,7 +21,7 @@ def kelola_paket():
         print()
         tampil_paket(paket, False)
         print()
-        sub = pilih_menu("Pilih", [("Tambah paket", 1), ("Ubah paket", 2), ("Ubah status paket", 3), ("Kembali", 0)])
+        sub = pilih_menu("Pilih", [("Tambah paket", 1), ("Ubah paket", 2), ("Ubah status paket", 3), ("Hapus Paket", 4), ("Kembali", 0)])
         if sub == 0:
             break
         elif sub == 1:
@@ -78,4 +78,20 @@ def kelola_paket():
             status = pilih_menu("Status baru", [("Tersedia", True), ("Habis", False)])
             paket[idx]["sedia"] = status
             print("Status", paket[idx]["nama"], "udah jadi", "Tersedia" if status else "Habis")
+            enter()
+        elif sub == 4:
+            if len(paket) == 0:
+                print("Belum ada paket!")
+                enter()
+                continue
+            idx = ambil_nomor(paket)
+            if idx is None:
+                enter()
+                continue
+            konfirmasi = pilih_menu(f"Yakin mau hapus paket {paket[idx]['nama']}?", [("Ya", True), ("Tidak", False)])
+            if konfirmasi:
+                del paket[idx]
+                print("Paketnya udah dihapus!")
+            else:
+                print("Paketnya nggak jadi dihapus.")
             enter()
