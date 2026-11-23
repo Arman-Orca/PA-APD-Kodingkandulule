@@ -24,7 +24,7 @@ def register():
     except ValueError as e:
         print(e)
     else:
-        users.append({"username": username_baru, "password": password_baru, "role": "pelanggan"})
+        users.append({"username": username_baru, "password": password_baru, "role": "pelanggan", "saldo": 0})
         print("Register berhasil bos, silakan login.")
     finally:
         enter()

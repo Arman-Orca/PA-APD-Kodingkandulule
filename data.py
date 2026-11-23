@@ -1,6 +1,6 @@
 users = [
-    {"username": "admin", "password": "akuadminkaumember", "role": "admin"},
-    {"username": "yanto", "password": "000", "role": "pelanggan"},
+    {"username": "admin", "password": "akuadminkaumember", "role": "admin", "saldo": 0},
+    {"username": "yanto", "password": "000", "role": "pelanggan", "saldo": 0},
 ]
 paket = [   
     {"nama": "Paket Furnitur", "harga": 1000, "fitur": "perbaiki segala macam furnitur", "membutuhkan": "1 tukang", "sedia": True},
@@ -22,3 +22,4 @@ orders = []
 nomor_order = 1
 status_tukang = ("Siap kerja", "Sibuk")
 MAKS_HARGA = 100000
+MAKS_TOPUP = 1000000
