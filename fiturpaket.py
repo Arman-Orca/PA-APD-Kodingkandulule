@@ -33,7 +33,7 @@ def kelola_paket():
             if nama == "":
                 print("Nama nggak boleh kosong!")
             elif nama_ada:
-                print("Nama sudah ada!")
+                print("Yahh nama sudah ada!")
             else:
                 harga = minta_angka("Harga : ", 0, MAKS_HARGA)
                 fitur = minta_angka("Fitur : ", 0, 999)
