@@ -93,18 +93,6 @@ def kelola_tukang():
             else:
                 print("Tukangnya nggak jadi dihapus.")
             enter()        
-            continue
-        if tukang[idx]["status"] == "Sibuk":
-            print(f"Tukang {tukang[idx]['nama']} lagi sibuk, nggak bisa dihapus!")
-            enter()
-            continue
-        konfirmasi = pilih_menu(f"Yakin mau hapus tukang {tukang[idx]['nama']}?", [("Ya", True), ("Tidak", False)])
-        if konfirmasi:
-            del tukang[idx]
-            print("Tukangnya udah dihapus!")
-        else:
-            print("Tukangnya nggak jadi dihapus.")
-        enter() 
 def cari_tukang_siap():
     return
 def lihat_tukang():

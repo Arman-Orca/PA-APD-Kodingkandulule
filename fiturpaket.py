@@ -13,6 +13,14 @@ def minta_angka(pesan, minimal, maksimal):
             print("Isi angka bulat", minimal, "sampai", maksimal)
         else:
             return nilai
+import inquirer
+
+def minta_teks(pesan, boleh_kosong=False):
+    while True:
+        teks = tanya_teks(pesan).strip()
+        if teks or boleh_kosong:
+            return teks
+        print("Tidak boleh kosong!")
         
 def kelola_paket():
     while True:
@@ -36,7 +44,7 @@ def kelola_paket():
                 print("Nama sudah ada!")
             else:
                 harga = minta_angka("Harga : ", 0, MAKS_HARGA)
-                fitur = minta_angka("Fitur : ", 0, 999)
+                fitur = minta_teks("Fitur : ")
                 paket.append({"nama": nama, "harga": harga, "fitur": fitur, "sedia": True})
                 print("Paketnya udah ditambah!")
             enter()
