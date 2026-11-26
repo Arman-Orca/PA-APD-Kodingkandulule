@@ -2,7 +2,7 @@ from helper import clear_screen, pilih_menu
 from autentikasi import lihat_pengguna
 from fiturtukang import kelola_tukang, lihat_tukang
 from fiturpaket import kelola_paket
-from fiturpesanan import buat_pesanan
+from fiturpesanan import buat_pesanan, lihat_status
 from fitursaldo import topup_saldo, jumlah_saldo
 
 def menu_admin():
@@ -53,9 +53,9 @@ def menu_pelanggan(user_login):
         elif menu == 1:
             lihat_tukang()
         elif menu == 2:
-            print("belum dibikin")
+            lihat_status(user_login)
         elif menu == 3:
-            buat_pesanan()
+            buat_pesanan(user_login)
         elif menu == 4:
             jumlah_saldo(user_login)
         elif menu == 5:
