@@ -1,19 +1,14 @@
 from data import paket, MAKS_HARGA
-from helper import clear_screen, enter, pilih_menu, tanya_teks
+from helper import clear_screen, enter, pilih_menu, tanya_teks, minta_angka
 from tampilan import tampil_paket
 from fiturtukang import ambil_nomor
-
-def minta_angka(pesan, minimal, maksimal):
-    while True:
-        try:
-            nilai = int(tanya_teks(pesan))
-            if nilai < minimal or nilai > maksimal:
-                raise ValueError
-        except ValueError:
-            print("Isi angka bulat", minimal, "sampai", maksimal)
-        else:
-            return nilai
 import inquirer
+
+def nama_paket_dipakai(nama, kecuali=None):
+    for i in range(len(paket)):
+        if i != kecuali and paket[i]["nama"].lower() == nama.lower():
+            return True
+    return False
 
 def minta_teks(pesan, boleh_kosong=False):
     while True:
@@ -34,18 +29,15 @@ def kelola_paket():
             break
         elif sub == 1:
             nama = tanya_teks("Nama paket").strip()
-            nama_ada = False
-            for p in paket:
-                if p["nama"].lower() == nama.lower():
-                    nama_ada = True
             if nama == "":
                 print("Nama nggak boleh kosong!")
-            elif nama_ada:
+            elif nama_paket_dipakai(nama):
                 print("Yahh nama sudah ada!")
             else:
-                harga = minta_angka("Harga : ", 0, MAKS_HARGA)
-                fitur = minta_teks("Fitur : ")
-                paket.append({"nama": nama, "harga": harga, "fitur": fitur, "sedia": True})
+                harga = minta_angka("Harga per m2 : ", 1, MAKS_HARGA)
+                fitur = minta_teks("Fitur")
+                butuh = minta_angka("Jumlah tukang yang dibutuhkan : ", 1 )
+                paket.append({"nama": nama, "harga": harga, "fitur": fitur, "membutuhkan": f"{butuh} tukang", "sedia": True})
                 print("Paketnya udah ditambah!")
             enter()
         elif sub == 2:
@@ -58,20 +50,18 @@ def kelola_paket():
                 enter()
                 continue
             nama = tanya_teks("Nama baru").strip()
-            nama_ada = False
-            for i in range(len(paket)):
-                if i != idx and paket[i]["nama"].lower() == nama.lower():
-                    nama_ada = True
             if nama == "":
                 print("Nama nggak boleh kosong!")
-            elif nama_ada:
+            elif nama_paket_dipakai(nama, idx):
                 print("Nama itu sudah ada!")
             else:
-                harga = minta_angka("Harga baru : ", 0, MAKS_HARGA)
-                fitur = tanya_teks("Fitur baru").strip()
+                harga = minta_angka("Harga baru per m2 : ", 1, MAKS_HARGA)
+                fitur = minta_teks("Fitur baru")
+                butuh = minta_angka("Jumlah tukang yang dibutuhkan : ", 1 )
                 paket[idx]["nama"] = nama
                 paket[idx]["harga"] = harga
                 paket[idx]["fitur"] = fitur
+                paket[idx]["membutuhkan"] = f"{butuh} tukang"
                 print("Paketnya udah diubah!")
             enter()
         elif sub == 3:

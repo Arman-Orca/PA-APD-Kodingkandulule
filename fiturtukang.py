@@ -2,6 +2,7 @@ from data import tukang, status_tukang
 from helper import clear_screen, enter, pilih_menu, tanya_teks
 from tampilan import tampil_tukang
 from prettytable import PrettyTable
+
 def ambil_nomor(daftar):
     try:
         nomor = int(tanya_teks("Nomor"))
@@ -14,6 +15,21 @@ def ambil_nomor(daftar):
         print("Nomor itu nggak ada!")
         return None
     return nomor - 1
+
+def nama_tukang_dipakai(nama, kecuali=None):
+    for i in range(len(tukang)):
+        if i != kecuali and tukang[i]["nama"].lower() == nama.lower():
+            return True
+    return False
+
+def cari_tukang_siap():
+    return [t for t in tukang if t["status"] == status_tukang[0]]
+
+def bebaskan_tukang(daftar_nama):
+    for t in tukang:
+        if t["nama"] in daftar_nama:
+            t["status"] = status_tukang[0]
+
 def kelola_tukang():
     while True:
         clear_screen()
@@ -26,13 +42,9 @@ def kelola_tukang():
             break
         elif sub == 1:
             nama = tanya_teks("Nama tukang").strip()
-            nama_ada = False
-            for t in tukang:
-                if t["nama"] == nama:
-                    nama_ada = True
             if nama == "":
                 print("Nama nggak boleh kosong!")
-            elif nama_ada == True:
+            elif nama_tukang_dipakai(nama):
                 print("Nama tukang sudah ada!")
             else:
                 tukang.append({"nama": nama, "status": status_tukang[0]})
@@ -47,14 +59,14 @@ def kelola_tukang():
             if idx is None:
                 enter()
                 continue
+            if tukang[idx]["status"] == status_tukang[1]:
+                print(f"Tukang {tukang[idx]['nama']} lagi sibuk, nggak bisa diganti namanya!")
+                enter()
+                continue
             nama = tanya_teks("Nama baru").strip()
-            nama_ada = False
-            for i in range(len(tukang)):
-                if i != idx and tukang[i]["nama"] == nama:
-                    nama_ada = True
             if nama == "":
                 print("Nama nggak boleh kosong!")
-            elif nama_ada == True:
+            elif nama_tukang_dipakai(nama, idx):
                 print("Nama tukang sudah ada!")
             else:
                 tukang[idx]["nama"] = nama
@@ -67,7 +79,7 @@ def kelola_tukang():
                 continue
             idx = ambil_nomor(tukang)
             if idx is None:
-                enter()    
+                enter()
                 continue
             status = pilih_menu("Status baru", list(status_tukang))
             tukang[idx]["status"] = status
@@ -82,7 +94,7 @@ def kelola_tukang():
             if idx is None:
                 enter()
                 continue
-            if tukang[idx]["status"] == "Sibuk":
+            if tukang[idx]["status"] == status_tukang[1]:
                 print(f"Tukang {tukang[idx]['nama']} lagi sibuk, nggak bisa dihapus!")
                 enter()
                 continue
@@ -92,9 +104,8 @@ def kelola_tukang():
                 print("Tukangnya udah dihapus!")
             else:
                 print("Tukangnya nggak jadi dihapus.")
-            enter()        
-def cari_tukang_siap():
-    return
+            enter()      
+
 def lihat_tukang():
     clear_screen()
     tabel = PrettyTable()

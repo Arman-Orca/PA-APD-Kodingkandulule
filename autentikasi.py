@@ -1,5 +1,6 @@
 from data import users
 from helper import clear_screen, enter, tanya_teks
+
 def validasi_akun(username, password):
     if username == "":
         raise ValueError("Namamu masih kosong bos!")
@@ -8,11 +9,13 @@ def validasi_akun(username, password):
             raise ValueError("Ganti nama lain, udah ada yang make")
     if len(password) < 3:
         raise ValueError("Password minimal 3 karakter!")
+    
 def cari_user(username, password):
     for u in users:
         if u["username"] == username and u["password"] == password:
             return u
     return {}
+
 def register():
     clear_screen()
     print("---( BUAT AKUN BARU )---")
@@ -28,6 +31,7 @@ def register():
         print("Register berhasil bos, silakan login.")
     finally:
         enter()
+
 def login():
     clear_screen()
     print("---( LOGIN )---")
@@ -39,6 +43,7 @@ def login():
         print("Username atau password salah!")
         enter()
     return user_login
+
 def lihat_pengguna():
     clear_screen()
     print("---( DAFTAR PENGGUNA )---")

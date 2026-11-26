@@ -1,19 +1,32 @@
 import data
 from data import orders, paket, tukang
-from helper import clear_screen, enter, minta_angka, tanya_teks
-from tampilan import tampil_paket
-from fiturtukang import cari_tukang_siap
+from helper import clear_screen, enter, minta_angka, tanya_teks, pilih_menu
+from tampilan import tampil_paket, tampil_pesanan
+from fiturtukang import cari_tukang_siap, bebaskan_tukang
 from prettytable import PrettyTable
+
 def buat_nomor_order():
     nomor_baru = data.nomor_order
     data.nomor_order = data.nomor_order + 1
     return nomor_baru
+
 def jumlah_tukang(p):
     return int(p["membutuhkan"].split()[0])
+
 def hitung_total(p, ukuran):
     if p.get("per_meter", True):
         return p["harga"] * ukuran
     return p["harga"]
+
+def cari_order(nomor, daftar):
+    for o in daftar:
+        if o["no_pesanan"] == nomor:
+            return o
+    return None
+
+def pesanan_milik(user_login):
+    return [o for o in orders if o["username"] == user_login["username"]]
+
 def buat_pesanan(user_login):
     clear_screen()
     print("---( BUAT PESANAN )---")
@@ -64,6 +77,7 @@ def buat_pesanan(user_login):
         print("Total      : Rp", total)
     finally:
         enter()
+
 def lihat_status(user_login):
     clear_screen()
     tabel = PrettyTable(["Nomor", "Paket", "Status"])
@@ -71,4 +85,104 @@ def lihat_status(user_login):
         if p["username"] == user_login["username"]:
             tabel.add_row([p["no_pesanan"], p["paket"], p["status"]])
     print(tabel)
+    enter()
+
+def pembayaran(user_login):
+    clear_screen()
+    print("---( PEMBAYARAN )---")
+    print()
+    belum = [o for o in pesanan_milik(user_login) if o["pembayaran"] == "Belum bayar"]
+    if len(belum) == 0:
+        print("Nggak ada pesanan yang perlu dibayar.")
+    else:
+        tampil_pesanan(belum)
+        print("Saldo kamu : Rp", user_login["saldo"])
+        print()
+        nomor = minta_angka("Nomor pesanan yang dibayar (0 = batal) : ", 0, data.nomor_order)
+        if nomor == 0:
+            print("Pembayaran dibatalkan.")
+        else:
+            o = cari_order(nomor, belum)
+            if o is None:
+                print("Pesanan itu nggak ada atau sudah dibayar!")
+            elif user_login["saldo"] < o["total"]:
+                print("Saldo kurang Rp", o["total"] - user_login["saldo"], "- top up dulu bos.")
+            else:
+                user_login["saldo"] -= o["total"]
+                o["pembayaran"] = "Lunas"
+                print("Pembayaran berhasil!")
+                print("Sisa saldo : Rp", user_login["saldo"])
+    enter()
+
+def hapus_lokasi(user_login):
+    clear_screen()
+    print("---( HAPUS LOKASI PESANAN )---")
+    print()
+    bisa = [o for o in pesanan_milik(user_login) if o["status"] == "Diproses" and o["pembayaran"] == "Belum bayar"]
+    if len(bisa) == 0:
+        print("Tidak ada pesanan yang bisa dihapus (harus belum dibayar).")
+    else:
+        tampil_pesanan(bisa)
+        print()
+        nomor = minta_angka("Nomor pesanan yang dihapus (0 = batal) : ", 0, data.nomor_order)
+        if nomor == 0:
+            print("Dibatalkan.")
+        else:
+            o = cari_order(nomor, bisa)
+            if o is None:
+                print("Pesanan itu nggak ada atau nggak bisa dihapus!")
+            elif pilih_menu(f"Yakin hapus pesanan {nomor} di {o['lokasi']}?", [("Ya", True), ("Tidak", False)]):
+                bebaskan_tukang(o["nama_tukang"])
+                orders.remove(o)
+                print("Lokasi dan pesanannya udah dihapus, tukang dibebaskan lagi.")
+            else:
+                print("Nggak jadi dihapus.")
+    enter()
+
+def status_pembayaran():
+    clear_screen()
+    print("---( STATUS PEMBAYARAN )---")
+    tampil_pesanan(orders, True)
+    enter()
+
+def tandai_selesai():
+    clear_screen()
+    print("---( TANDAI SELESAI )---")
+    print()
+    diproses = [o for o in orders if o["status"] == "Diproses"]
+    if len(diproses) == 0:
+        print("Nggak ada pesanan yang lagi diproses.")
+    else:
+        tampil_pesanan(diproses, True)
+        print()
+        nomor = minta_angka("Nomor pesanan yang selesai (0 = batal) : ", 0, data.nomor_order)
+        if nomor == 0:
+            print("Dibatalkan.")
+        else:
+            o = cari_order(nomor, diproses)
+            if o is None:
+                print("Pesanan itu nggak ada atau sudah selesai!")
+            elif o["pembayaran"] != "Lunas":
+                print("Pelanggan belum bayar, belum bisa ditandai selesai!")
+            else:
+                o["status"] = "Selesai"
+                bebaskan_tukang(o["nama_tukang"])
+                print("Pesanan", nomor, "selesai, tukang udah siap kerja lagi.")
+    enter()
+
+def hitung_pendapatan(daftar, i=0):
+    if i >= len(daftar):
+        return 0
+    sisa = hitung_pendapatan(daftar, i + 1)
+    if daftar[i]["status"] == "Selesai":
+        return daftar[i]["total"] + sisa
+    return sisa
+
+def total_pendapatan():
+    clear_screen()
+    print("---( TOTAL PENDAPATAN )---")
+    print()
+    selesai = len([o for o in orders if o["status"] == "Selesai"])
+    print("Pesanan selesai   :", selesai)
+    print("Total pendapatan  : Rp", hitung_pendapatan(orders))
     enter()
